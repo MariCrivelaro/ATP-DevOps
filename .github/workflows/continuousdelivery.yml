@@ -27,3 +27,18 @@ jobs:
             name: projetozipado.zip
         - name: Display structure of downloaded files
           run: ls -R
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v4
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-actions@v3
+      -
+        name: Build Docker image
+        run: docker build -t teste .
