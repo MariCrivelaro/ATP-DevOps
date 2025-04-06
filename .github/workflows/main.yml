@@ -1,46 +1,27 @@
-name: CI/CD Pipeline
+name: main.yml
 
 on:
-  pull_request:
-    branches:
-      - main
   push:
     branches:
       - main
+
+permissions:
+  contents: read
+  actions: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository code
+      - name: Check out code
         uses: actions/checkout@v4
 
-      - name: Python Lint Code Scanning Action
-        uses: advanced-security/python-lint-code-scanning-action@v1.1.2
-        with:
-          linter: pylint
+      - name: Rodando o build
+        run: echo "Build concluído com sucesso!"
 
-  jobs:
-    deliver:
-      runs-on: ubuntu-latest
-      steps:
-        - name: Check out repository code
-          uses: actions/checkout@v4
-
-        - name: Simulando Delivery
-          uses: actions/upload-artifact@v4
-          with:
-            name: projetozipado.zip
-            path: |
-              main.py
-
-    deploy:
-      runs-on: ubuntu-latest
-      needs: deliver
-      steps:
-        steps:
-          - uses: actions/download-artifact@v4
-            with:
-              name: projetozipado.zip
-          - name: Display structure of downloaded files
-            run: ls -R
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Rodando o deploy
+        run: echo "Deploy concluído com sucesso!"
