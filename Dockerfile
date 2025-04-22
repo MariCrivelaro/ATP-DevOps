@@ -1,11 +1,9 @@
-FROM python:3
+FROM python:3.11-slim
 
-WORKDIR /usr/src/app
-
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+WORKDIR /app
 
 COPY . .
 
-EXPOSE 80
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
+RUN pip install --no-cache-dir -r requirements.txt || echo "No requirements.txt found, continuing..."
+
+CMD ["python", "main.py"]
