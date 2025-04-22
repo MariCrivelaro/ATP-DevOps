@@ -1,0 +1,23 @@
+name: Alerta no Discord
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  send-alert:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Send alert to Discord
+        run: |
+          curl -X POST -H "Content-Type: application/json" \
+          -d '{"content": "Novo Commit ou Merge na branch main!"}' \
+          ${{ secrets.DISCORDWEBHOOK }}
