@@ -20,4 +20,4 @@ jobs:
         run: |
           curl -X POST -H "Content-Type: application/json" \
           -d '{"content": "Novo Commit ou Merge na branch main!"}' \
-          ${{ secrets.DISCORD_WEBHOOK_URL }}
+          ${{ secrets.DISCORDWEBHOOK }}
