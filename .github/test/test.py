@@ -11,4 +11,3 @@ def test_funcaoteste():
         result = funcaoteste()
     assert result == {"teste": True, "num_aleatorio": 12345}
 
-
