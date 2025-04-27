@@ -49,7 +49,7 @@ jobs:
         uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker Buildx
-        uses: actions/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v2  # Alterado para v2
 
       - name: Build Docker image
         run: docker build -t teste .
