@@ -23,14 +23,14 @@ jobs:
       - name: Install dependencies
         run: |
           pip install pytest
-          pip install -r requirements.txt || true  # ignora erro se não tiver requirements.txt
+          pip install -r requirements.txt || true
 
       - name: Run tests
         run: |
           pytest
 
   deliver:
-    needs: tests  # Só roda depois que os testes passarem
+    needs: tests
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
@@ -57,8 +57,8 @@ jobs:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
-      - name: Set up Docker Buildx
-        uses: actions/setup-buildx-action@v3
+      - name: Set up Docker Buildx (usando v2)
+        uses: actions/setup-buildx-action@v2  # Versão v2 para evitar problemas com v3
 
       - name: Build Docker image
         run: docker build -t teste .
