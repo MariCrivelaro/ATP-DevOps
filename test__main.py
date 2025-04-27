@@ -32,3 +32,4 @@ async def test_funcaoteste_random():
 async def test_funcaoteste_has_key():
     result = await funcaoteste()  # Usando await para aguardar a execução da coroutine
     assert "teste" in result
+    
