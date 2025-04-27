@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3.10  # Atualizado para v3.10
 
       - name: Setup Python
         uses: actions/setup-python@v4
@@ -23,28 +23,35 @@ jobs:
       - name: Install dependencies
         run: |
           pip install pytest
-          pip install -r requirements.txt || true
+          pip install -r requirements.txt || true  # ignora erro se não tiver requirements.txt
 
       - name: Run tests
         run: |
           pytest
 
   deliver:
-    needs: tests
+    needs: tests  # Só roda depois que os testes passarem
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3.10  # Atualizado para v3.10
 
       - name: Simulando Delivery
-        run: |
-          echo "Simulando delivery sem artefato..."
+        uses: actions/upload-artifact@v4
+        with:
+          name: projetozipado.zip
+          path: |
+            main.py
 
   deploy:
     needs: deliver
     runs-on: ubuntu-latest
     steps:
-      - name: Display structure of repository
+      - uses: actions/download-artifact@v4
+        with:
+          name: projetozipado.zip
+
+      - name: Display structure of downloaded files
         run: ls -R
 
   docker:
@@ -52,13 +59,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3.10  # Atualizado para v3.10
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
+        uses: docker/setup-qemu-action@v3.6  # Versão v3.6
 
-      - name: Set up Docker Buildx (usando v2)
-        uses: actions/setup-buildx-action@v2  # Versão v2 para evitar problemas com v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3.10  # Atualizado para v3.10
 
       - name: Build Docker image
         run: docker build -t teste .
