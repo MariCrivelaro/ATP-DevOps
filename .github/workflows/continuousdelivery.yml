@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2  # Usando v2
+        uses: actions/checkout@v4
 
       - name: Setup Python
         uses: actions/setup-python@v4
@@ -29,29 +29,13 @@ jobs:
         run: |
           pytest
 
-  deliver:
+  deploy:
     needs: tests  # Só roda depois que os testes passarem
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository code
-        uses: actions/checkout@v2  # Usando v2
+      - uses: actions/checkout@v4
 
-      - name: Simulando Delivery
-        uses: actions/upload-artifact@v4
-        with:
-          name: projetozipado.zip
-          path: |
-            main.py
-
-  deploy:
-    needs: deliver
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/download-artifact@v4
-        with:
-          name: projetozipado.zip
-
-      - name: Display structure of downloaded files
+      - name: Display structure of files
         run: ls -R
 
   docker:
@@ -59,13 +43,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2  # Usando v2
+        uses: actions/checkout@v4
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3.6  # Versão v3.6
+        uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3.10  # Versão v3.10
+        uses: actions/setup-buildx-action@v3
 
       - name: Build Docker image
         run: docker build -t teste .
